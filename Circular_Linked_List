@@ -1,0 +1,259 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+ 
+
+struct node
+
+{
+
+    struct node *next;
+
+    int data;
+
+};
+
+struct node *p,*q,*fl,*newrec;
+
+ 
+
+void insert()
+
+{
+
+    int x,ch;
+
+    printf("enter the data");
+
+    scanf("%d",&x);
+
+    newrec =(struct node*) malloc(sizeof(struct node));
+
+    newrec->data=x;
+
+    newrec->next=NULL;
+
+   
+
+    if(fl==NULL)
+
+    {
+
+        fl=newrec;
+
+        newrec->next=newrec;
+
+    }
+
+    else
+
+    {
+
+    printf("enter\n 1.insert at beg\n 2.insert at last\n 3.insert at position\n");
+
+    scanf("%d",&ch);
+
+    if(ch==1)
+
+    {
+
+        newrec->next=fl->next;
+
+        fl->next=newrec;
+
+    }
+
+    else if(ch==2)
+
+    {
+
+        newrec->next=fl->next;
+
+        fl->next=newrec;
+
+        fl=newrec;
+
+    }
+
+    else if(ch==3)
+
+    {
+
+        int y;
+
+        printf("enter the position\n");
+
+        scanf("%d",&y);
+
+        p=fl->next;
+
+        while(p->data!=y && p->next!=fl->next)
+
+        {
+
+        p=p->next;
+
+        }
+
+        newrec->next=p->next;
+
+        p->next=newrec;
+
+    }
+
+    else
+
+    {
+
+        printf("invalid choice\n");
+
+    }
+
+    }
+
+}
+
+void delete()
+
+{
+
+    int ch;
+
+    if(fl==NULL)
+
+    {
+
+    printf("deletion not possible");
+
+    }
+
+    else
+
+    {
+
+        printf("enter 1.delete at beg\n 2.delete at end\n");
+
+        scanf("%d",&ch);
+
+        if(ch==1)
+
+        {
+
+            p=fl->next;
+
+            fl->next=p->next;
+
+            p->next=NULL;
+
+        }
+
+        else if(ch==2)
+
+        {
+
+            q=fl;
+
+           while(q->next!=fl)
+
+            q=q->next;
+
+            q->next=fl->next;
+
+            fl->next=NULL;
+
+            fl=q;
+
+        }
+
+        else
+
+        {
+
+            printf("invalid choice");
+
+        }
+
+        free(p);
+
+    }
+
+}
+
+void display()
+
+{
+
+    if(fl==NULL)
+
+    {
+
+        printf("LL is empty\n");
+
+    }
+
+    else
+
+    {
+
+    p=fl;
+
+    printf("%d\n",fl->data);
+
+    while(p->next!=fl)
+
+    {
+
+    p=p->next;
+
+    printf("%d\n",p->data);
+
+    }
+
+    }
+
+}
+
+void main()
+
+{
+
+    int ch;
+
+    fl=NULL;
+
+    do
+
+    {
+
+        printf("enter\n 1.insert\n 2.delete\n 3.display\n 4.EXIT\n");
+
+        scanf("%d",&ch);
+
+         switch(ch)
+
+         {
+
+             case 1: insert();
+
+             break;
+
+             case 2 : delete();
+
+             delete;
+
+             case 3 : display();
+
+             break;
+
+             case 4 : break;
+
+             default: printf("invalid input");
+
+         }
+
+        
+
+    }while(ch!=4);
+
+}
