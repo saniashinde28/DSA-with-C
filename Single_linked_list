@@ -1,0 +1,185 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    struct node *next;
+    int data;
+};
+struct node *p,*q,*f,*l,*newrec;
+
+void insert()
+{
+    int x,ch;
+    printf("enter data");
+    scanf("%d",&x);
+    newrec=malloc(sizeof(struct node));
+    newrec->data=x;
+    newrec->next=NULL;
+    
+    if(f==NULL)
+    {
+        f=newrec;
+        l=newrec;
+        
+    }
+    else 
+    {
+        printf("enter 1.insert at first\n 2.insert at last\n 3.insert at pos\n");
+        scanf("%d",&ch);
+        if(ch==1)
+        {
+            newrec->next=f;
+            f=newrec;
+        }
+        else if(ch==2)
+        {
+            l->next=newrec;
+            l=newrec;
+        }
+        else if(ch==3)
+        {
+            int y;
+            printf("enter the element after which data is to be inserted\n");
+            scanf("%d",&y);
+            if(l->data==y)
+            {
+                l->next=newrec;
+                l=newrec;
+            }
+            else
+            {
+                p=f;
+                while(p->data!=y && p->next!=NULL)
+                p=p->next;
+                
+                if(p->next==NULL)
+                printf("insertion not possible\n");
+                
+                else
+                {
+                    newrec->next=p->next;
+                    p->next=newrec;
+                }
+            }
+        }
+        else 
+        printf("invalid input\n");
+    }
+}
+void search()
+{
+    int y;
+    printf("enter element to be serched\n");
+    scanf("%d",&y);
+    if(f==NULL)
+    printf("LL  is empty");
+    else
+    {
+        while(p->data!=y && p->next!=NULL)
+        p=p->next;
+        if(p->data==y)
+        printf("element found");
+        else 
+        printf("element not found");
+    }
+}
+void display()
+{
+    if(f==NULL)
+    printf("LL is empty");
+    else
+    {
+        p=f;
+        while(p!=NULL)
+        {
+            printf("%d",p->data);
+            p=p->next;
+        }
+    }
+}
+void delete()
+{
+    int y;
+    if(f==NULL)
+    printf("LL is empty\n");
+    else
+    {
+        printf("data to be deleted\n");
+        scanf("%d",&y);
+        if(f->data==y)
+        {
+            p=f;
+            if(f==l)
+            {
+                f=NULL;
+                l=NULL;
+            }
+            else
+            {
+                f=p->next;
+                p->next=NULL;
+                
+            }
+        }
+        else if(l->data==y)
+        {
+            p=f;
+            q=l;
+            while(p->next!=q)
+            p=p->next;
+            q->next=NULL;
+            l=p;
+        }
+        else
+        {
+            p=f;
+            q=f;
+            while(p->data!=y && p->next!=NULL)
+            p=p->next;
+            
+            if(p==NULL)
+            printf("deletion not possible\n");
+            else
+            {
+                while(q->next!=p)
+                q=q->next;
+                q->next=p->next;
+                p->next=NULL;
+            }
+        }
+    }
+    free(p);
+}
+
+void main()
+{
+    int ch;
+    f=NULL;
+    l=NULL;
+    do
+    {
+        printf("enter 1.insert\n 2.delete\n 3.search\n 4.display\n 5. EXIT\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+            insert();
+            break;
+            case 2:
+            delete();
+            break;
+            case 3:
+            search();
+            break;
+            case 4:
+            display();
+            break;
+            case 5:
+            break;
+            default:
+            printf("invalid input\n");
+        }
+    }
+    while(ch!=5);
+}
