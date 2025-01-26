@@ -1,0 +1,42 @@
+#include<stdio.h>
+int adj[10][10]={0},visited[10]={0},n;
+
+void bfs(int node)
+{
+    int q[20],f=0,r=0,i,nd;
+    visited[node]=1;
+    q[++r]=node;
+    while(f!=r)
+    {
+        nd=q[++f];
+        printf("%d",nd);
+        for(i=1;i<=n;i++)
+        {
+            if(adj[nd][i]==1 && visited[i]==0)
+            {
+                visited[i]=1;
+                q[++r]=i;
+            }
+        }
+    }
+}
+
+int main()
+{
+    int e,i,v1,v2,node;
+    printf("Enter nos of nodes\n");
+    scanf("%d",&n);
+    printf("Enter nos of edges\n");
+    scanf("%d",&e);
+    printf("Enter edge details\n");
+    for(i=1;i<=e;i++)
+    {
+        printf("Enter edge\n");
+        scanf("%d%d",&v1,&v2);
+        adj[v1][v2]=adj[v2][v1]=1;
+    }
+    printf("Enter starting vertex\n");
+    scanf("%d",&node);
+    bfs(node);
+    return 0;
+}
