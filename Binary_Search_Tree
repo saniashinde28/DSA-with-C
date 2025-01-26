@@ -1,0 +1,289 @@
+#include<stdio.h> 
+#include<stdlib.h> 
+typedef struct node
+{
+int data;
+struct node *left, *right;
+}node;
+
+typedef struct
+{
+node *root;
+}Tree;
+
+node* fatherOf(Tree *t, node *p) //To search father og given node
+{
+node *q;
+ 
+if(p==t->root) //if node is root return NULL;
+return NULL;
+q=t->root; 
+while(q!=NULL)
+{
+if(q->left==p||q->right==p) 
+return q; //parent found if(p->data<=q->data)
+if(p->data<=q->data)
+q=q->right;
+else
+q=q->right;
+}
+return NULL;
+}
+node *findmax(node *r)
+{
+if(r->right==NULL) return r;
+else
+return findmax(r->right);
+}
+
+node *findmin(node *r)
+{
+if(r->left==NULL)
+ return r;
+ else
+return findmin(r->left);
+}
+
+int search(Tree *t, int ele) //chk if node present
+{
+
+node *p; p=t->root;
+while(p!=NULL)
+{
+if(p->data==ele) return 1;
+else
+if(ele<=p->data) p=p->left;
+else
+p=p->right;
+}
+return 0;
+}
+
+void insertNode(Tree *t, int ele)//to insert node in BST
+{
+node *newrec, *p;
+ newrec=(node*)malloc(sizeof(node));//create a node newrec->data=ele;	//assign ele
+newrec->left=newrec->right=NULL; //make left and right of node NULL if(t->root==NULL)	//If tree is empty
+{
+
+t->root=newrec; return;
+}
+
+p=t->root; while(p!=NULL)
+{
+
+if(ele<=p->data)
+
+{
+
+if(p->left==NULL)
+
+{
+
+p->left=newrec; 
+return;
+}
+
+else
+
+p=p->left;
+
+}
+
+if(p->right==NULL)
+
+{
+
+p->right=newrec; 
+return;
+ 
+}
+
+else
+
+p=p->right;
+}
+}
+void deleteNode(Tree *t, int ele) //delete node
+{
+node *p,*f;
+if(t->root==NULL)	//chk tree if empty
+{
+printf("Tree is empty\n"); return;
+}
+p=t->root;
+
+while(p!=NULL) //p points to node to be deleted
+{
+if(ele==p->data) 
+break;
+if(ele<p->data) p=p->left;
+else
+p=p->right;
+}
+if(p==NULL)
+ {
+
+printf("Node %d is not present\n",ele); 
+return;
+}
+
+if(p->left==NULL&&p->right==NULL) //case1: if node to be deleted is leaf node
+
+{
+
+if(p==t->root)
+
+{
+
+t->root=NULL; 
+return;
+}
+
+f=fatherOf(t,p); //father of node p if(f->left==p)
+if(f->left==p)
+f->left=NULL; 
+else
+f->right=NULL; return;
+}
+
+if(p->left!=NULL) //node has either left child or both children
+
+{
+
+int value;
+
+node *max=findmax(p->left); 
+value=max->data; 
+deleteNode(t,max->data);
+p->data=value;
+ 
+return;
+
+}
+
+//p has only right child if(p==t->root)
+{
+
+t->root=p->right; 
+return;
+}
+
+f=fatherOf(t,p); 
+if(p==f->left)
+f->left=p->right; 
+else
+f->right=p->right;
+
+}
+
+
+
+void inorder(node *x)
+
+{
+
+if(x!=NULL)
+
+{
+
+inorder(x->left); 
+printf("%d ",x->data); 
+inorder(x->right);
+}
+
+}
+ 
+
+
+void preorder(node *x)
+
+{
+
+if(x!=NULL)
+
+{
+
+printf("%d ",x->data); 
+preorder(x->left);
+preorder(x->right);
+}
+
+}
+
+
+
+void postorder(node *x)
+
+{
+
+if(x!=NULL)
+
+{
+
+postorder(x->left); 
+postorder(x->right); 
+printf("%d ",x->data);
+}
+}
+
+
+
+int main()
+{
+Tree t;
+int ch,ele,x;
+t.root=NULL; while(1)
+{
+printf("\n1.InsertNode\n2.DeleteNode\n3.Search\n4.Inorder\n5.Preorder\n6.Postorder\n7.Exit\n");
+printf("Enter choice\t"); 
+scanf("%d",&ch); 
+if(ch==7)
+break; switch(ch)
+{
+
+case 1: 
+printf("Enter element to be inserted\t"); 
+scanf("%d",&ele);
+insertNode(&t,ele); printf("tree nodes are\n"); 
+inorder(t.root);
+break;
+
+case 2: 
+printf("Enter element to be deleted\t"); 
+scanf("%d",&ele);
+deleteNode(&t,ele); 
+printf("tree nodes are\n");
+inorder(t.root);
+break;
+
+case 3: 
+printf("Enter element to be searched\t"); 
+scanf("%d",&ele);
+printf("tree nodes are\n"); 
+inorder(t.root); 
+if (x==1)
+printf("\nnode %d is present\n");
+else
+printf("\nnode %d is not present\n");
+break;
+
+
+case 4: 
+printf("tree nodes in inorder sequenece\n");
+inorder(t.root); 
+break;
+
+case 5: printf("tree nodes in preorder sequenece\n");
+preorder(t.root); 
+break;
+
+case 6: printf("tree nodes in postorder sequenece\n"); 
+postorder(t.root);
+break;
+
+default : printf("Invalid Choice\n");
+}
+}
+return 0;
+}
