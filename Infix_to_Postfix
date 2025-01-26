@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <string.h>
+#define max 100
+
+int isoprd(char x);
+int isopr(char x);
+int prio(char x);
+void push(char x);
+char pop();
+
+struct stack
+{
+    int tos;
+    char a[max];
+};
+
+struct stack s; // declare s globally
+
+int main()
+{
+    s.tos = -1; // Initialize the stack
+    char infix[30], postfix[30], x, y;
+    int j = 0, n, i;
+
+    printf("Enter expression : ");
+    scanf("%s", infix);
+    n = strlen(infix);
+    for (i = 0; i <= n - 1; i++)
+    {
+        x = infix[i];
+        if (isoprd(x))
+        {
+            postfix[j] = x;
+            j++;
+        }
+        else if (isopr(x))
+        {
+            while (prio(x) <= prio(s.a[s.tos]))
+            {
+                y = pop();
+                postfix[j] = y;
+                j++;
+            }
+            push(x);
+        }
+        else if (x == '(')
+            push(x);
+        else
+        {
+            while (s.a[s.tos] != '(')
+            {
+                y = pop();
+                postfix[j] = y;
+                j++;
+            }
+            y = pop();
+        }
+    }
+    while ((s.tos) != -1)
+    {
+        y = pop();
+        postfix[j] = y;
+        j++;
+    }
+    postfix[j] = '\0';
+    printf("POSTFIX EXPRESSION\n");
+    puts(postfix);
+}
+
+void push(char x)
+{
+    if (s.tos == max - 1)
+        printf("Stack Overflow");
+    else
+    {
+        s.tos++;
+        s.a[s.tos] = x;
+    }
+}
+
+char pop()
+{
+    char x;
+    if (s.tos == -1)
+    {
+        printf("Stack Underflow");
+        return '\0';
+    }
+    else
+    {
+        x = s.a[s.tos];
+        s.tos--;
+    }
+    return x;
+}
+
+int isoprd(char x)
+{
+    if ((x >= 'A' && x <= 'z') || (x >= 'a' && x <= 'z'))
+        return 1;
+    else
+        return 0;
+}
+
+int isopr(char x)
+{
+    if (x == '+' || x == '-' || x == '*' || x == '/')
+        return 1;
+    else
+        return 0;
+}
+
+int prio(char x)
+{
+    if (x == '*' || x == '/')
+        return 3;
+    else if (x == '+' || x == '-')
+        return 2;
+    else
+        return 1;
+}
