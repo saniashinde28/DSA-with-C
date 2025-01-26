@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<string.h>
+#define SIZE 5
+
+struct queue
+{
+    int a[SIZE],f,r;
+};
+struct queue q;
+
+void enq(int x)
+{
+    if(q.r==SIZE-1)
+    printf("queue full\n");
+    else
+    {
+    q.r++;
+    q.a[q.r]=x;
+    }
+    
+}
+void deq()
+{
+    int x;
+    if(q.f==q.r+1)
+    printf("queue underflow\n");
+    else
+    {
+        x=q.a[q.f];
+        q.f++;
+    }
+}
+void display()
+{
+    int i;
+    if(q.f==q.r+1)
+    printf("queue is empty\n");
+    else 
+    {
+        for(i=q.f;i<=q.r;i++)
+        printf("%d\n",q.a[i]);
+    }
+}
+void main()
+{
+    int ch,x;
+    q.r=-1;
+    q.f=0;
+    
+    do
+    {
+        printf("enter\n 1.enq\n 2.deq\n 3.display\n 4.EXIT\n");
+        scanf("%d",&ch);
+        
+        switch(ch)
+        {
+            case 1:
+            printf("value to be enq\n");
+            scanf("%d",&x);
+            enq(x);
+            break;
+            case 2:
+            deq();
+            break;
+            case 3:
+            printf("displaying queue\n");
+            display();
+            break;
+            case 4:
+            break;
+            default:
+            printf("invalid input\n");
+            break;
+        }
+    }
+    while(ch!=4);
+}
