@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<string.h>
+#define MAX 5
+struct stack
+{
+    int a[MAX];
+    int tos;
+};
+struct stack s;
+void push(int x)
+ {
+     if(s.tos==MAX-1)
+     printf("stack overflow");
+     else
+     {
+         s.tos++;
+         s.a[s.tos]=x;
+     }
+ }
+ void pop()
+ {
+     int y;
+     if(s.tos==-1)
+     printf("stack underflow");
+     else 
+     {
+     y=s.a[s.tos];
+     s.tos--;
+     printf("element popped = %d",y);
+     }
+ }
+ void display()
+ {
+     int i;
+     if(s.tos==-1)
+     printf("stack underflow\n");
+     else
+     {
+         for(i=s.tos;i>=0;i--)
+         printf("%d",s.a[i]);
+     }
+ }
+ void destroy()
+ {
+     s.tos=-1;
+     printf("stack destroyed");
+ }
+ 
+ void main()
+ {
+     s.tos=-1;
+     int ch,x;
+     do
+     {
+         printf("enter 1.push\n 2.pop\n 3.display\n 4.destroy\n 5.EXIT\n");
+         scanf("%d",&ch);
+         
+         switch(ch)
+         {
+         case 1:
+         printf("enter element to be pushed\n"); 
+         scanf("%d",&x);
+         push(x);
+         break;
+         
+         case 2:
+         pop();
+         break;
+         
+         case 3:
+         display();
+         break;
+         
+         case 4:
+         destroy();
+         break;
+         
+         case 5:
+         break;
+         default:
+         printf("invalid input");
+         break;
+         }
+     }
+     while(ch!=5);
+ }
