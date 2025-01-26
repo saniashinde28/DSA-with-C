@@ -1,0 +1,105 @@
+#include<stdio.h>
+#include<string.h>
+#define n 50 
+
+void push(int x);
+int pop();
+int isoprd(char x);
+
+struct stack
+{
+	int tos;
+	int a[n];
+};
+
+ struct stack s;
+
+int main()
+{
+	int i, size, op1, op2, r, result;
+	char x, s1[n];
+	s.tos = -1;
+	printf("Enter Expression : ");
+    gets(s1);
+	size = strlen(s1);
+	
+	for( i=0; i<=size-1; i++)
+	{
+		x = s1[i];
+		if ( isoprd (x))
+		{
+			push((int) (x - '0'));
+		}
+    else
+{
+	op2 = pop();
+	op1 = pop();
+	
+	switch(x)
+	{
+		case '+':
+                r = op1 + op2;
+                break;
+            case '-':
+                r = op1 - op2;  
+                break;
+            case '*':
+                r = op1 * op2;
+                break;
+            case '/':
+                r = op1 / op2;
+                break;
+            default:
+                r = op1 ^ op2;  
+                break;   		             
+	}
+	push(r);
+    }
+}
+    int res;
+    res = pop();
+    printf("Final result = %d",res);
+    return 0;
+}
+
+void push (int x)
+{
+	if ( s.tos == n - 1 )
+	{
+	printf("Stack overflow\n");
+    }
+	else
+	{
+		s.tos++;
+		s.a[s.tos] = x ;
+	}
+}
+
+int pop ()
+{
+	int x;
+	if ( s.tos == -1 )
+	{
+		printf("Stack underflow\n");
+	}
+	else
+	{
+		x = s.a[s.tos];
+		s.tos--;
+	
+	return x;
+	}
+}
+
+int isoprd (char x)
+{
+	if ( x >= '0' && x <= '9' )
+	{
+	return 1;
+    }
+    else
+    {
+    	return 0;
+	}
+	
+}
